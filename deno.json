@@ -1,6 +1,6 @@
 {
   "name": "@fritogotlayed/dotenv-enhanced",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "tasks": {
     "tool:check": "deno check . && deno lint && deno fmt --check",
     "tool:check:types": "deno check",
