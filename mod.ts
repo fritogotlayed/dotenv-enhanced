@@ -1,9 +1,80 @@
 /**
- * Parses and loads environment variables from a `.env` file into the current
- * process, with enhanced support for multiple .env files (.env + .env.[NODE_ENV]).
+ * Enhanced dotenv loader with support for multiple environment files.
  *
- * This is an enhanced version of @std/dotenv that provides 1:1 compatibility
- * while adding support for environment-specific configuration files.
+ * This module provides a drop-in replacement for `@std/dotenv` with enhanced
+ * functionality for loading environment variables from multiple `.env` files.
+ * It maintains 100% compatibility with `@std/dotenv` while adding support for
+ * environment-specific configuration files based on the `NODE_ENV` variable.
+ *
+ * ## Key Features
+ * - **Drop-in compatibility** with `@std/dotenv`
+ * - **Multiple .env files**: Load `.env` + `.env.[NODE_ENV]` automatically
+ * - **Environment-specific overrides**: Values in `.env.development` override `.env`
+ * - **System environment protection**: Won't override existing environment variables
+ * - **Intelligent override logic**: Tracks which variables it sets for proper layering
+ *
+ * ## Usage
+ *
+ * ### Enhanced Functions (Unique to dotenv-enhanced)
+ * ```ts
+ * import { loadEnvSync, mod } from "@fritogotlayed/dotenv-enhanced";
+ *
+ * // Synchronous loading of .env + .env.[NODE_ENV]
+ * loadEnvSync();
+ *
+ * // Asynchronous loading of .env + .env.[NODE_ENV]
+ * await mod();
+ * ```
+ *
+ * ### Standard @std/dotenv Functions (Drop-in Compatibility)
+ * ```ts
+ * import { load, loadSync } from "@fritogotlayed/dotenv-enhanced";
+ *
+ * // Works exactly like @std/dotenv
+ * const config = await load({ envPath: ".env.custom", export: true });
+ * const configSync = loadSync({ envPath: ".env.local" });
+ * ```
+ *
+ * ### Re-exported Functions
+ * ```ts
+ * import { parse, stringify } from "@fritogotlayed/dotenv-enhanced";
+ *
+ * // All @std/dotenv functions available
+ * const parsed = parse("KEY=value\nANOTHER=thing");
+ * const stringified = stringify({ KEY: "value" });
+ * ```
+ *
+ * ## File Loading Behavior
+ * When using `loadEnvSync()` or `mod()`:
+ * 1. Loads `.env` file (if it exists)
+ * 2. If `NODE_ENV` is set, loads `.env.[NODE_ENV]` file (if it exists)
+ * 3. Variables from environment-specific files override base `.env` variables
+ * 4. System environment variables are never overridden
+ *
+ * @example Basic usage
+ * ```ts
+ * import { loadEnvSync } from "@fritogotlayed/dotenv-enhanced";
+ *
+ * // Set environment
+ * Deno.env.set("NODE_ENV", "development");
+ *
+ * // Load .env and .env.development
+ * loadEnvSync();
+ *
+ * // Access variables
+ * console.log(Deno.env.get("DATABASE_URL"));
+ * ```
+ *
+ * @example Auto-loading on import
+ * ```ts
+ * // Auto-load environment variables
+ * import "@fritogotlayed/dotenv-enhanced/load-env";
+ *
+ * // Variables are now available
+ * console.log(Deno.env.get("API_KEY"));
+ * ```
+ *
+ * @module
  */
 import { parse } from "@std/dotenv";
 
