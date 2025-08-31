@@ -203,7 +203,7 @@ Recognizes: `'true'`, `'t'`, `'1'`, `'y'`, `'yes'`, `'on'`, `'enabled'`,
 Check if an environment variable represents a "truthy" value.
 
 Note: this helper reads from the environment at runtime and requires the Deno
-`--allow-env` permission.`
+`--allow-env` permission.
 
 ```typescript
 import { isEnvVarTruthy } from "@fritogotlayed/dotenv-enhanced/utils";
