@@ -16,6 +16,7 @@ files.
   values
 - 🛡️ **System env protection** - Won't override existing environment variables
 - 🚀 **Auto-loading** - Import once and forget
+- 🔧 **Utility functions** - Built-in helpers for common environment variable patterns
 - 📦 **Zero additional dependencies** - Just extends `@std/dotenv`
 
 ## Installation
@@ -174,6 +175,37 @@ All standard `@std/dotenv` functions and exports are available:
 ```typescript
 // All of these work exactly like @std/dotenv
 import { parse, stringify } from "@fritogotlayed/dotenv-enhanced";
+```
+
+### Utility Functions
+
+#### `isTruthyString(value)`
+
+Check if a string represents a "truthy" value using common conventions.
+
+```typescript
+import { isTruthyString } from "@fritogotlayed/dotenv-enhanced/utils";
+
+isTruthyString("true");    // true
+isTruthyString("yes");     // true
+isTruthyString("1");       // true
+isTruthyString("enabled"); // true
+isTruthyString("false");   // false
+isTruthyString("no");      // false
+```
+
+Recognizes: `'true'`, `'t'`, `'1'`, `'y'`, `'yes'`, `'on'`, `'enabled'`, `'active'`
+
+#### `isEnvVarTruthy(key)`
+
+Check if an environment variable represents a "truthy" value.
+
+```typescript
+import { isEnvVarTruthy } from "@fritogotlayed/dotenv-enhanced/utils";
+
+// Assuming DEBUG=true in .env
+isEnvVarTruthy("DEBUG");        // true
+isEnvVarTruthy("NONEXISTENT");  // false (empty string is falsy)
 ```
 
 ## Use Cases

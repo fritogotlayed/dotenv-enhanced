@@ -1,6 +1,6 @@
 {
   "name": "@fritogotlayed/dotenv-enhanced",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "tasks": {
     "tool:check": "deno check . && deno lint && deno fmt --check",
     "tool:check:types": "deno check",
@@ -12,7 +12,8 @@
     "./load": "./load.ts",
     "./load-env": "./load-env.ts",
     "./parse": "./parse.ts",
-    "./stringify": "./stringify.ts"
+    "./stringify": "./stringify.ts",
+    "./utils": "./utils.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.14",
