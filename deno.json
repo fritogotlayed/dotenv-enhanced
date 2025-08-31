@@ -4,7 +4,7 @@
   "tasks": {
     "tool:check": "deno check . && deno lint && deno fmt --check",
     "tool:check:types": "deno check",
-    "tool:test": "NODE_ENV=test deno test --allow-read --allow-write --allow-net --allow-env --fail-fast",
+    "tool:test": "NODE_ENV=test deno test --allow-read --allow-write --allow-env --fail-fast",
     "tool:test:coverage": "NODE_ENV=test deno task tool:test --coverage --clean && deno coverage --detailed"
   },
   "exports": {

@@ -52,6 +52,13 @@ Deno.test("isTruthyString() is case insensitive", () => {
   assertEquals(isTruthyString("Yes"), true);
 });
 
+Deno.test("isTruthyString() ignores surrounding whitespace", () => {
+  assertEquals(isTruthyString(" true "), true);
+  assertEquals(isTruthyString("  on"), true);
+  assertEquals(isTruthyString("yes  "), true);
+  assertEquals(isTruthyString("  no  "), false);
+});
+
 Deno.test("isEnvVarTruthy() returns true when environment variable has truthy value", () => {
   const testKey = "TEST_TRUTHY_VAR";
 
@@ -87,6 +94,9 @@ Deno.test("isEnvVarTruthy() returns true when environment variable has uppercase
     assertEquals(isEnvVarTruthy(testKey), true);
 
     Deno.env.set(testKey, "ENABLED");
+    assertEquals(isEnvVarTruthy(testKey), true);
+
+    Deno.env.set(testKey, "ACTIVE");
     assertEquals(isEnvVarTruthy(testKey), true);
   } finally {
     Deno.env.delete(testKey);

@@ -5,10 +5,18 @@
  * represent boolean values using common string conventions.
  *
  * @module utils
- * @version 0.1.1
  */
 
-const TRUTHY_VALUES = ["true", "t", "1", "y", "yes", "on", "enabled", "active"];
+const TRUTHY_VALUES = new Set([
+  "true",
+  "t",
+  "1",
+  "y",
+  "yes",
+  "on",
+  "enabled",
+  "active",
+]);
 
 /**
  * Check if a string represents a "truthy" value using common conventions.
@@ -32,11 +40,13 @@ const TRUTHY_VALUES = ["true", "t", "1", "y", "yes", "on", "enabled", "active"];
  * ```
  */
 export function isTruthyString(value: string): boolean {
-  return TRUTHY_VALUES.includes(value.toLowerCase());
+  return TRUTHY_VALUES.has(value.trim().toLowerCase());
 }
 
 /**
  * Check if an environment variable represents a "truthy" value.
+ *
+ * Permissions: requires Deno --allow-env.
  *
  * Gets the environment variable value and checks if it matches common
  * truthy string representations. If the environment variable doesn't exist,
@@ -55,6 +65,5 @@ export function isTruthyString(value: string): boolean {
  * ```
  */
 export function isEnvVarTruthy(key: string): boolean {
-  const value = (Deno.env.get(key) ?? "").toLowerCase();
-  return isTruthyString(value);
+  return isTruthyString(Deno.env.get(key) ?? "");
 }
